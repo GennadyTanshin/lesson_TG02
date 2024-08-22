@@ -15,11 +15,13 @@ async def photo(message: Message):
     rand_photo = random.choice(list)
     await message.answer_photo(photo=rand_photo, caption='Слоники')
 
+
 @dp.message(F.photo)
 async def react_photo(message: Message):
     list =['Ого какая фотка', 'Не понятно что тут изображено','Не присылай мне это больше']
     rand_ans =random.choice(list)
     await message.answer(rand_ans)
+    await bot.download(message.photo[-1], destination=f'tmp/{message.photo[-1].file_id}.jpg')
 
 @dp.message(F.text == "Что такое ИИ?")
 async def aitext(message: Message):
@@ -31,7 +33,9 @@ async def help(message: Message):
 
 @dp.message()
 async def start(message: Message):
-    await message.send_copy(chat_id=message.chat.id)
+    if message.text.lower() == 'test':
+        await message.answer('Тестируем')
+    #await message.answer(f'Привет, {message.from_user.first_name}')
 
 
 
